@@ -1,352 +1,520 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="icon" href="images/ic2.png" />
-    <title>APP GV MÉTODOS</title> 
-    <link rel="stylesheet" href="css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-      href="css/bootstrap.min.css"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&amp;display=swap"
       rel="stylesheet"
-      crossorigin="anonymous"
     />
+    <title>MINES - HACK DO MINES</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #1e1e2a;
+        background-image: url("https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png");
+        /* Substitua pelo caminho da sua imagem */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+        overflow-x: hidden;
+        font-family: "Poppins", sans-serif;
+        padding: 0;
+        scroll-behavior: smooth;
+        box-sizing: border-box;
+        scroll-padding-top: 2rem;
+      }
+
+      .site-container {
+        margin-bottom: 20px;
+        width: 100%;
+        height: 100%;
+        max-width: 900px;
+      }
+
+      #site-container {
+        display: none;
+        box-shadow: 0 0 8px 5px #2196f3;
+      }
+
+      #site-container.site-open {
+        display: block;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .responsive-container {
+          width: 100%;
+          height: 400px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .responsive-container {
+          scroll-padding-top: 5rem;
+        }
+      }
+
+      @media only screen and (max-width: 600px) {
+        #site-container {
+          width: calc(100% - 40px);
+          margin: 0 20px;
+        }
+
+        #site-iframe {
+          width: 100%;
+        }
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .responsive-container {
+        height: 600px;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        display: block;
+        margin: auto;
+        max-width: 100%;
+        border: none;
+        border-radius: 10px;
+      }
+
+      .cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-bottom: 100%;
+        position: relative;
+        background-image: url("images/IMG_9687-1.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .cell img {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+      }
+
+      .cell.clicked {
+        background-image: url("images/IMG_9688.png");
+      }
+
+      .button-container {
+        margin: 10px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .button-container button {
+        display: block;
+        padding: 10px 20px;
+        font-size: 24px;
+        border: none;
+        border-radius: 5px;
+        background-color: #2196f3;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .countdown {
+        background-color: #ccc !important;
+        color: #555 !important;
+        cursor: not-allowed;
+      }
+
+      #button-container {
+        width: 100%;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .blur {
+        filter: blur(5px);
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(1.1);
+        }
+
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .button-pulse {
+        animation: pulse 1s infinite;
+      }
+
+      @keyframes gradient {
+        0% {
+          background-position: -200% 0;
+        }
+
+        100% {
+          background-position: 200% 0;
+        }
+      }
+
+      .grid.blur::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0.4),
+          rgba(255, 255, 255, 0.2),
+          rgba(255, 255, 255, 0.4)
+        );
+        background-size: 200% 100%;
+        z-index: 2;
+        animation: gradient 2s linear infinite;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .button-container {
+          flex-direction: column;
+          margin: 10px auto;
+        }
+
+        .button-container button {
+          margin: 10px;
+          font-size: 18px;
+        }
+      }
+
+      #footer-container {
+        text-align: center;
+        padding: 20px;
+      }
+
+      footer {
+        color: #fff;
+        font-size: 14px;
+      }
+
+      #loading-overlay {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #1e1e2a;
+      }
+
+      .loading-spinner {
+        border: 4px solid #fff;
+        border-top: 4px solid transparent;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .text {
+        color: #fff;
+        display: center;
+        text-align: center;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .game-container {
+          max-width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+          box-sizing: border-box;
+          padding: 0 20px;
+        }
+      }
+
+      .game-container {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .responsive-container {
+          height: 600px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .initial-image,
+        .grid {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      @media only screen and (max-width: 600px) {
+        .game-container {
+          width: calc(100% - 40px);
+          margin: 0 20px;
+        }
+      }
+
+      .initial-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("images/aviso.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 1;
+      }
+
+      @media only screen and (max-width: 600px) {
+        .grid {
+          width: 300px !important;
+          height: 300px !important;
+          margin: 0 auto !important;
+        }
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        width: 400px;
+        height: 400px;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        z-index: 0;
+      }
+    </style>
     <script>
-      !(function (e, t) {
-        "object" == typeof exports && "object" == typeof module
-          ? (module.exports = t())
-          : "function" == typeof define && define.amd
-          ? define([], t)
-          : "object" == typeof exports
-          ? (exports.install = t())
-          : (e.install = t());
-      })(window, function () {
-        return (function (e) {
-          var t = {};
-          function n(r) {
-            if (t[r]) return t[r].exports;
-            var o = (t[r] = { i: r, l: !1, exports: {} });
-            return e[r].call(o.exports, o, o.exports, n), (o.l = !0), o.exports;
-          }
-          return (
-            (n.m = e),
-            (n.c = t),
-            (n.d = function (e, t, r) {
-              n.o(e, t) ||
-                Object.defineProperty(e, t, { enumerable: !0, get: r });
-            }),
-            (n.r = function (e) {
-              "undefined" != typeof Symbol &&
-                Symbol.toStringTag &&
-                Object.defineProperty(e, Symbol.toStringTag, {
-                  value: "Module",
-                }),
-                Object.defineProperty(e, "_esModule", { value: !0 });
-            }),
-            (n.t = function (e, t) {
-              if ((1 & t && (e = n(e)), 8 & t)) return e;
-              if (4 & t && "object" == typeof e && e && e.esModule) return e;
-              var r = Object.create(null);
-              if (
-                (n.r(r),
-                Object.defineProperty(r, "default", {
-                  enumerable: !0,
-                  value: e,
-                }),
-                2 & t && "string" != typeof e)
-              )
-                for (var o in e)
-                  n.d(
-                    r,
-                    o,
-                    function (t) {
-                      return e[t];
-                    }.bind(null, o)
-                  );
-              return r;
-            }),
-            (n.n = function (e) {
-              var t =
-                e && e.esModule
-                  ? function () {
-                      return e.default;
-                    }
-                  : function () {
-                      return e;
-                    };
-              return n.d(t, "a", t), t;
-            }),
-            (n.o = function (e, t) {
-              return Object.prototype.hasOwnProperty.call(e, t);
-            }),
-            (n.p = ""),
-            n((n.s = 0))
-          );
-        })([
-          function (e, t, n) {
-            "use strict";
-            var r =
-              (this && this._spreadArray) ||
-              function (e, t, n) {
-                if (n || 2 === arguments.length)
-                  for (var r, o = 0, i = t.length; o < i; o++)
-                    (!r && o in t) ||
-                      (r || (r = Array.prototype.slice.call(t, 0, o)),
-                      (r[o] = t[o]));
-                return e.concat(r || Array.prototype.slice.call(t));
-              };
-            !(function (e) {
-              var t = window;
-              (t.KwaiAnalyticsObject = e), (t[e] = t[e] || []);
-              var n = t[e];
-              n.methods = [
-                "page",
-                "track",
-                "identify",
-                "instances",
-                "debug",
-                "on",
-                "off",
-                "once",
-                "ready",
-                "alias",
-                "group",
-                "enableCookie",
-                "disableCookie",
-              ];
-              var o = function (e, t) {
-                e[t] = function () {
-                  var n = Array.from(arguments),
-                    o = r([t], n, !0);
-                  e.push(o);
-                };
-              };
-              n.methods.forEach(function (e) {
-                o(n, e);
-              }),
-                (n.instance = function (e) {
-                  var t = n._i[e] || [];
-                  return (
-                    n.methods.forEach(function (e) {
-                      o(t, e);
-                    }),
-                    t
-                  );
-                }),
-                (n.load = function (t, r) {
-                  (n._i = n._i || {}),
-                    (n._i[t] = []),
-                    (n._i[t]._u =
-                      "https://s1.kwai.net/kos/s101/nlav11187/pixel/events.js"),
-                    (n._t = n._t || {}),
-                    (n._t[t] = +new Date()),
-                    (n._o = n._o || {}),
-                    (n._o[t] = r || {});
-                  var o = document.createElement("script");
-                  (o.type = "text/javascript"),
-                    (o.async = !0),
-                    (o.src =
-                      "https://s1.kwai.net/kos/s101/nlav11187/pixel/events.js?sdkid=" +
-                      t +
-                      "&lib=" +
-                      e);
-                  var i = document.getElementsByTagName("script")[0];
-                  i.parentNode.insertBefore(o, i);
-                });
-            })("kwaiq");
-          },
-        ]);
+      window.addEventListener("DOMContentLoaded", function () {
+        const siteButtonContainer = document.getElementById(
+          "site-button-container"
+        );
+        siteButtonContainer.parentNode.removeChild(siteButtonContainer);
       });
     </script>
   </head>
 
-  <body id="bootstrap-override">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <div class="gerador my-3">
-            <img src="images/backgroundpo.jpg" alt="" />
-            <ul>
-              <li>
-                <img src="images/c1.png" alt="" />
-                <h3>NORMAL: <span id="entrada">--</span></h3>
-              </li>
-              <li>
-                <img src="images/iconturbo.png" alt="" />
-                <h3>TURBO: <span id="turbo">--</span></h3>
-              </li>
-              <li>
-                <img src="images/iconvalidade.png" alt="" />
-                <h3>VALIDADE: <span id="validade">--</span></h3>
-              </li>
-            </ul>
-            <button type="button" class="btn-gerar" id="geradorbotao">
-              PROCURAR FALHA
-            </button>
-          </div>
+  <body data-rsssl="1" data-cmplz="1">
+    <div id="container">
+      <div class="text" id="text">
+        <h2><b>GV HACKER MINES</b></h2>
+      </div>
+      <div id="text">
+        <p id="text" class="text">
+          <b>⏰Até 3<e b> tentativas</e></b>
+        </p>
+      </div>
+      <div id="text">
+        <p id="text" class="text"><b>💣Apostar: </b>3 Minas</p>
+      </div>
+      <div class="game-container">
+        <div class="grid"></div>
+      </div>
+      <div class="hack-controls">
+        <div id="hack-button-container" class="button-container">
+          <button id="generate-pattern">HACKEAR MINES</button>
         </div>
       </div>
+      <div id="site-button-container" class="button-container">
+        <button id="toggle-site">ABRIR CASA DE APOSTAS</button>
+      </div>
     </div>
-    <div class="betSeteK">
-      <iframe src="https://hosting.devluar.com/entraai/6je_EBQP"></iframe>
+    <!-- Add the iframe element inside the site-container -->
+    <div id="site-container" class="responsive-container">
+      <div id="loading-overlay">
+        <div class="loading-spinner"></div>
+      </div>
+      <!-- Set the src attribute to the desired website URL -->
+      <iframe
+        id="site-iframe"
+        src="https://hosting.devluar.com/entraai/6je_EBQP"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
     </div>
-    <script src="js/popper.min.js" crossorigin="anonymous"></script>
-    <script src="js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script src="js/dayjs.min.js" defer=""></script>
-    <script src="js/app.js"></script>
 
-    <title>Botão Flutuante - Quantidade de Pessoas</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
+    <div id="footer-container">
+      <footer>
+        <p>© Todos os Direitos Reservados!</p>
+      </footer>
 
-      #botao-flutuante {
-        position: fixed;
-        bottom: 20px;
-        right: 13px;
-        z-index: 9999;
-        background-color: #9d2525;
-        color: #fff;
-        padding: 7px;
-        border-radius: 7px;
-        font-size: 12px;
-        cursor: pointer;
-        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-        transition: background-color 0.3s ease;
-      }
+      <script>
+        const toggleSiteButton = document.getElementById("toggle-site");
+        const siteContainer = document.getElementById("site-container");
+        const siteIframe = document.getElementById("site-iframe");
+        const loadingOverlay = document.getElementById("loading-overlay");
 
-      #botao-flutuante:hover {
-        background-color: #ffa726;
-      }
-    </style>
+        let siteOpen = false;
 
-    <button id="botao-flutuante">
-      176 pessoas jogando <br />
-      no App
-    </button>
-
-    <script>
-      var botaoFlutuante = document.getElementById("botao-flutuante");
-      var quantidadePessoas = Math.floor(Math.random() * 126) + 125; // Números aleatórios de 125 a 250
-
-      botaoFlutuante.innerHTML =
-        quantidadePessoas + " pessoas jogando <br> no App";
-
-      setInterval(function () {
-        quantidadePessoas += Math.floor(Math.random() * 3) - 1; // Incrementa ou decrementa em até 1 pessoa
-
-        if (quantidadePessoas < 125) {
-          quantidadePessoas = 125;
-        } else if (quantidadePessoas > 250) {
-          quantidadePessoas = 250;
+        function toggleSite() {
+          if (siteOpen) {
+            siteContainer.style.display = "none";
+            toggleSiteButton.textContent = "ABRIR CASA DE APOSTAS";
+            siteOpen = false;
+          } else {
+            siteContainer.style.display = "block";
+            toggleSiteButton.textContent = "FECHAR CASA DE APOSTAS";
+            siteOpen = true;
+          }
         }
 
-        botaoFlutuante.innerHTML =
-          quantidadePessoas + " pessoas jogando <br> no App";
-      }, 5000); // Atualiza a cada 5 segundos (5000 milissegundos)
-    </script>
+        window.addEventListener("load", function () {
+          const siteContainer = document.getElementById("site-container");
+          siteContainer.scrollIntoView({ behavior: "smooth" });
+        });
 
-    <div
-      class="elementor-element elementor-element-e53a6c3 elementor-widget elementor-widget-html"
-      data-id="e53a6c3"
-      data-element_type="widget"
-      data-widget_type="html.default"
-    >
-      <div class="elementor-widget-container">
-        <div class="container">
-          <title>Mensagem de Saque</title>
-          <style>
-            body {
-              margin: 0;
-              padding: 0;
-              font-family: Arial, sans-serif;
+        toggleSiteButton.addEventListener("click", toggleSite);
+
+        // Adicione o evento load ao iframe para remover o loader após o carregamento completo
+        siteIframe.addEventListener("load", function () {
+          loadingOverlay.style.display = "none";
+        });
+
+        const grid = document.querySelector(".grid");
+        const generatePatternButton =
+          document.getElementById("generate-pattern");
+        const SIZE = 5;
+        let secondsLeft = 20;
+        let timer = null;
+        // Resto do seu código...
+
+        function generateGrid() {
+          for (let i = 0; i < SIZE * SIZE; i++) {
+            const cell = document.createElement("div");
+            cell.className = "cell";
+            if (i === Math.floor((SIZE * SIZE) / 2)) {
+              cell.classList.add("central-cell");
             }
+            grid.appendChild(cell);
+          }
+        }
 
-            #mensagem-saque {
-              position: fixed;
-              top: 20px;
-              right: 20px; /* Alterado para posicionar no canto superior direito */
-              background-color: #9d2525;
-              color: #fff;
-              padding: 10px;
-              font-size: 15px;
-              text-align: center;
-              border-radius: 10px;
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-              opacity: 0;
-              transition: opacity 0.3s ease;
-              display: fixed;
-              align-items: center;
-              justify-content: center;
+        function clearPattern() {
+          const cells = document.querySelectorAll(".cell");
+          cells.forEach((cell) => cell.classList.remove("clicked"));
+        }
+
+        function generatePattern(min, max) {
+          clearPattern();
+          const cells = document.querySelectorAll(".cell");
+          const pattern = [];
+          const numClicks = Math.floor(Math.random() * (max - min + 1)) + min;
+
+          while (pattern.length < numClicks) {
+            const index = Math.floor(Math.random() * (SIZE * SIZE));
+            if (!pattern.includes(index)) {
+              pattern.push(index);
             }
+          }
 
-            #mensagem-saque.mostrar {
-              opacity: 1;
-            }
+          pattern.forEach((index) => cells[index].classList.add("clicked"));
+        }
 
-            #logo-pix {
-              margin-right: 10px;
-              width: 25px;
-              height: 25px;
-            }
-          </style>
+        function startTimer() {
+          generatePatternButton.disabled = true;
+          generatePatternButton.innerHTML = `AGUARDE ${secondsLeft} SEG`;
+          generatePatternButton.classList.add("countdown"); // Adiciona a classe "countdown"
+          generatePatternButton.classList.remove("button-pulse"); // Remove a classe "button-pulse"
+          timer = setInterval(countDown, 1000);
+        }
 
-          <div id="mensagem-saque"></div>
+        function countDown() {
+          secondsLeft--;
+          generatePatternButton.innerHTML = `AGUARDE ${secondsLeft} SEG`;
+          if (secondsLeft === 0) {
+            clearInterval(timer);
+            generatePatternButton.disabled = false;
+            generatePatternButton.innerHTML = "HACKEAR MINES";
+            generatePatternButton.classList.remove("countdown"); // Remove a classe "countdown"
+            secondsLeft = 20;
+            generatePatternButton.blur(); // Remova o foco do botão
+          }
+        }
 
-          <script>
-            var nomes = [
-              "Ana",
-              "João",
-              "Maria",
-              "Pedro",
-              "Lúcia",
-              "Carlos",
-              "Fernanda",
-              "Rafael",
-              "Patrícia",
-              "Lucas",
-              "Mariana",
-              "José",
-              "Camila",
-              "Eduardo",
-              "Laura",
-              "Paulo",
-              "Juliana",
-              "Thiago",
-              "Débora",
-              "Diego",
-            ];
+        function hackMines() {
+          generatePatternButton.disabled = true;
+          generatePatternButton.innerHTML = "HACKEANDO...";
+          generatePatternButton.classList.add("button-pulse");
+          grid.classList.add("blur");
+          grid.classList.add("gradient"); // Adicione a classe para exibir o reflexo
+          const initialImage = document.querySelector(".initial-image");
+          initialImage.style.display = "none"; // Esconde a imagem inicial
+          setTimeout(() => {
+            generatePatternButton.disabled = false;
+            generatePatternButton.innerHTML = `AGUARDE ${secondsLeft} SEG`;
+            generatePatternButton.classList.remove("button-pulse");
+            grid.classList.remove("blur");
+            grid.classList.remove("gradient"); // Remova a classe para ocultar o reflexo
+            generatePatternButton.focus();
+            startTimer();
+            generatePattern(3, 5);
+          }, 5000);
+        }
 
-            function gerarMensagem() {
-              var nomeAleatorio =
-                nomes[Math.floor(Math.random() * nomes.length)];
-              var valorSaqueAleatorio =
-                Math.floor(Math.random() * (997 - 100 + 1)) + 100;
+        generateGrid();
+        toggleSite();
 
-              var mensagemSaque = document.getElementById("mensagem-saque");
-              mensagemSaque.innerHTML =
-                '<img decoding="async" id="logo-pix" src="https://worldgamesbr.com.br/wp-content/uploads/2023/07/logo-pix-png-icone-520x520-1.png" alt="Logo Pix">' +
-                nomeAleatorio +
-                " realizou um saque de R$ " +
-                valorSaqueAleatorio +
-                " 🚨";
-              mensagemSaque.classList.add("mostrar");
+        function saveCookies() {
+          const cookies = document.cookie.split("; ");
+          localStorage.setItem("cookies", JSON.stringify(cookies));
+        }
 
-              setTimeout(function () {
-                mensagemSaque.classList.remove("mostrar");
-              }, 2000); // Remove a mensagem após 5 segundos (5000 milissegundos)
-            }
+        function restoreCookies() {
+          const storedCookies = localStorage.getItem("cookies");
+          if (storedCookies) {
+            const cookies = JSON.parse(storedCookies);
+            cookies.forEach((cookie) => {
+              document.cookie = cookie;
+            });
+          }
+        }
 
-            setInterval(gerarMensagem, 15000); // Exibe uma nova mensagem a cada 30 segundos (30000 milissegundos)
-          </script>
-        </div>
-      </div>
+        window.addEventListener("DOMContentLoaded", restoreCookies);
+        window.addEventListener("beforeunload", saveCookies);
+
+        generatePatternButton.addEventListener("click", hackMines);
+      </script>
     </div>
   </body>
 </html>
