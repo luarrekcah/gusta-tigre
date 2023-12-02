@@ -413,7 +413,7 @@
         const generatePatternButton =
           document.getElementById("generate-pattern");
         const SIZE = 5;
-        let secondsLeft = 20;
+        let secondsLeft = 5;
         let timer = null;
         // Resto do seu código...
 
@@ -465,7 +465,7 @@
             generatePatternButton.disabled = false;
             generatePatternButton.innerHTML = "HACKEAR MINES";
             generatePatternButton.classList.remove("countdown"); // Remove a classe "countdown"
-            secondsLeft = 20;
+            secondsLeft = 5;
             generatePatternButton.blur(); // Remova o foco do botão
           }
         }
